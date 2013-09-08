@@ -1,0 +1,23 @@
+Package: RRR
+Type: Package
+Title: Replacement, Reduction and Refinement
+Depends:
+    shiny,
+    pwr,
+    MASS
+Version: 0.2
+Date: 2013-07-06
+Author: Stef van Buuren
+Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
+Description: Tools for reducing the number animals needed for biomemedical
+    experiments. This version implements calculations for experiments where all
+    treatment group are compared to one control group.
+License: GPL-2
+LazyData: Yes
+Copyright: Stef van Buuren 2013
+Collate:
+    'initialize.r'
+    'plot.r'
+    'rho.r'
+    'go.r'
+    'table.r'
