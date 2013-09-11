@@ -2,11 +2,12 @@
 \alias{powerplot}
 \title{Create the chart with power lines}
 \usage{
-  powerplot(z, power = 0.8, main = NULL, isPBS = TRUE, ...)
+  powerplot(powertables, power = 0.8, main = NULL,
+    isPBS = TRUE, ...)
 }
 \arguments{
-  \item{z}{table of calculated power on a grid on n1, n2
-  and percent}
+  \item{powertables}{list of calculated power on a grid on
+  n1, n2 and percent}
 
   \item{power}{Power of the test}
 

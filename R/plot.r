@@ -1,27 +1,3 @@
-#' Calculate contours of pair (n1, n2) with a given minimal power 
-#' 
-#' @aliases get.contours
-#' 
-#' @param z A data frame produced by \code{power.grid()}
-#' @param power Power of the test
-#' @return A data frame combinations of (n1, n2)
-#' @export
-get.contours <- function(z, power = 0.8){
-    zs <- split(z, as.factor(z$percent))
-    dn <- dimnames(zs[[1]])
-    contours <- matrix(NA, ncol = length(zs), nrow = length(unique(z$n2)))
-    dimnames(contours) <- list(unique(z$n2), names(zs))
-    ran <- range(zs[[1]]$n1)
-    for (i in 1:length(zs)) {
-        v <- zs[[i]]
-        pct <- v[1,"percent"]
-        xx <- table(v$n1, v$n2, v$power > power)[,,1]
-        idx <- rowSums(xx)
-        contours[,i] <- idx + ran[1]
-    }
-    contours[contours > ran[2]] <- NA
-    return(contours)
-}
 
 
 #' Calculate the power of t-test with unequal variances
@@ -86,21 +62,36 @@ power.grid <- function(n1 = 2:30,
 #' 
 #' @aliases powerplot
 #' 
-#' @param z table of calculated power on a grid on n1, n2 and percent
+#' @param powertables list of calculated power on a grid on n1, n2 and percent
 #' @param power Power of the test
 #' @param main Text for title
 #' @param isPBS Logical indicating the the x-axis is PBS or compound group
 #' @param \dots Additional arguments passed to \code{eqscplot()}
 #' @return NULL
 #' @export
-powerplot <- function(z, power = 0.8, main = NULL, isPBS = TRUE, ...) {
-    xlab <- ifelse(isPBS, "n (PBS)", "n (compound)")
-    cnt <- get.contours(z, power = power)
+powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) {
+    xlab <- ifelse(isPBS, "n (control)", "n (treated)")
+    # cnt <- get.contours(z, power = power)
+    cnt <- powertables$treated.ctrs$contours
+    # browser()
+    if (isPBS) cnt <- powertables$control.ctrs$contours
     x <- as.numeric(dimnames(cnt)[[1]])
+    y <- powertables$treated.ctrs$contours
+    xy <- na.omit(cbind(x = x, y = y))
+    x <- xy[,1]
+    y <- xy[,2]
     eqscplot(x = c(0, 30), y = c(0, 30), xlim = c(0, 30), ylim = c(0, 30), 
              col = "transparent", xlab = xlab, ylab = "n (induced)",
              main = main, ...)
+    xy <- xy.coords(x = c(min(x), x, 35, 35),
+                    y = c(35, y, min(y), 35))
+    polygon(x = xy, col = rgb(207,232,207,maxColorValue=255), border = NA)
+    xy <- xy.coords(x = c(-5, min(x), x, 35, 35, -5),
+                    y = c(35, 35,     y, min(y), -5, -5))
+    polygon(x = xy, col = "grey99", border = NA)
     abline(h = seq(0,30,5), v = seq(0,30,5), lty = 2, col = "grey") 
+
+    x <- as.numeric(dimnames(cnt)[[1]])
     matlines(y = cnt[], x = x, lwd = 2, lty = 1,
              col = rev(c("black","red","green","brown","blue","violet","pink","lightblue",
                          "grey","darkred")))

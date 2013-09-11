@@ -3,51 +3,36 @@
 library("RRR")
 
 shinyServer(function(input, output) {
-    reset.globals()
     
     draw.plot <- function() {
-        alpha <- ifelse(input$alpha == "0.05", 0.05, 0.01)
-        power <- ifelse(input$power == "80%", 0.8, 0.9)
-        ncompound <- as.numeric(input$ncompound)
-        isPBS <- (input$comparison == "PBS")
-        musd <- get.musd()
-
-        if (isPBS)  z <- power.grid(mu1 = musd[1,1], sd1 = musd[1,2],
-                                    mu2 = musd[2,1], sd2 = musd[2,2],
-                                    percent = seq(100,10,-10), 
-                                    alternative = "less", 
-                                    alpha = alpha,
-                                    power = power)
-        else z <- power.grid(mu1 = musd[1,1], sd1 = musd[1,2],
-                             mu2 = musd[3,1], sd2 = musd[3,2],
-                             percent = 100, 
-                             alternative = "less", 
-                             alpha = alpha,
-                             power = power)
-        
+        ntreated <- as.numeric(input$ntreated)
+        # iscontrol <- input$comparison == "control"
+        iscontrol <- TRUE
         main <- ifelse(input$outcome == "hist", 
                        "Histology left lobe", 
                        "Collagen Accessory & Medial")
-        powerplot(z, power = power, main = main, isPBS = isPBS)
+        powertables <- powertables()
+        powerplot(powertables, main = main, isPBS = iscontrol)
     }
     
-    get.musd <- function() {
-        musd <- matrix(NA, nrow = 3, ncol = 2, 
-                         dimnames = list(c("Induced","PBS","Compound"), c("mu","sd")))
-        # cat(input)
-        if (input$outcome == "hist") {
-            musd[1,] <- c(input$hist.bleomycin.mu, input$hist.bleomycin.sd)
-            musd[2,] <- c(input$hist.pbs.mu, input$hist.pbs.sd)
-            musd[3,] <- c(input$hist.compound.mu, input$hist.compound.sd)
-        }
-        if (input$outcome == "cola") {
-            musd[1,] <- c(input$cola.bleomycin.mu, input$cola.bleomycin.sd)
-            musd[2,] <- c(input$cola.pbs.mu, input$cola.pbs.sd)
-            musd[3,] <- c(input$cola.compound.mu, input$cola.compound.sd)
-        }
-        return(musd)
-    }
+    powertables <- reactive({
+        calculate.powertables(
+            musd = musd(),
+            alpha = ifelse(input$alpha == "0.05", 0.05, 0.01),
+            power = switch(input$power, "80%" = 0.8, 
+                           "90%" = 0.9,
+                           "50%" = 0.5)
+        )})
     
+    musd <- reactive({
+        get.musd(input$outcome,
+                 input$hist.induced.mu, input$hist.induced.sd,
+                 input$hist.control.mu, input$hist.control.sd,
+                 input$hist.treated.mu, input$hist.treated.sd,
+                 input$cola.induced.mu, input$cola.induced.sd,
+                 input$cola.control.mu, input$cola.control.sd,
+                 input$cola.treated.mu, input$cola.treated.sd
+        )}) 
     
     create.pdf <- reactive({
         temp <- tempfile(fileext=".pdf")
@@ -58,7 +43,8 @@ shinyServer(function(input, output) {
         
         return(temp)
     })
-        
+    
+            
     output$mainplot <- renderPlot(
         draw.plot(), 
         width = 700,
@@ -68,12 +54,11 @@ shinyServer(function(input, output) {
 
     # Generate an HTML table view of the data
     output$table <- renderTable({
-        musd <- get.musd()
-        alpha <- ifelse(input$alpha == "0.05", 0.05, 0.01)
-        power <- ifelse(input$power == "80%", 0.8, 0.9)
-        ncompound <- as.numeric(input$ncompound)
-        get.table(musd, ncompound, alpha, power)
-    })
+        # musd <- musd()
+        powertables <- powertables()
+        ntreated <- as.numeric(input$ntreated)
+        get.table(powertables, k = ntreated)
+    }, NA.string = "-", include.rownames = FALSE)
     
     output$downloadPdf <- downloadHandler(
         filename =  file.path(getwd(),paste("output","pdf",sep=".")),

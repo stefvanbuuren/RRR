@@ -1,10 +1,10 @@
 \name{go}
 \alias{go}
-\title{Run the Shiy app}
+\title{Run the Shiny app from the console}
 \usage{
   go()
 }
 \description{
-  Run the Shiy app
+  Run the Shiny app from the console
 }
 

@@ -1,8 +1,7 @@
 
-#' Run the Shiy app
+#' Run the Shiny app from the console
 #' 
 #' @export
 go <- function(){
-    reset.globals()
-    runApp()
+    runApp(appDir = file.path(path.package(package = "RRR"), "3R"))
 }

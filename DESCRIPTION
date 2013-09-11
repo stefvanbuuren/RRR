@@ -5,8 +5,8 @@ Depends:
     shiny,
     pwr,
     MASS
-Version: 0.2
-Date: 2013-07-06
+Version: 0.4
+Date: 2013-09-11
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
@@ -16,8 +16,9 @@ License: GPL-2
 LazyData: Yes
 Copyright: Stef van Buuren 2013
 Collate:
-    'initialize.r'
     'plot.r'
     'rho.r'
     'go.r'
     'table.r'
+    'calculate.powertables.r'
+    'get.contours.r'

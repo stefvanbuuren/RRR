@@ -1,0 +1,27 @@
+\name{calculate.powertables}
+\alias{calculate.powertables}
+\title{Calculates the powertables for the given mu and sd matrix musd
+and other settings}
+\usage{
+  calculate.powertables(musd = NULL, alternative = "less",
+    alpha = 0.05, power = 0.8)
+}
+\arguments{
+  \item{musd}{A matrix with three rows and 2 columns, with
+  means and sd per scenario}
+
+  \item{alternative}{String to specify one-sided or
+  two-sided testing}
+
+  \item{alpha}{Type-1 error level}
+
+  \item{power}{Power of the test, or 1 - type-2 error}
+}
+\value{
+  A list with four components
+}
+\description{
+  Calculates the powertables for the given mu and sd matrix
+  musd and other settings
+}
+

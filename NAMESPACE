@@ -1,5 +1,7 @@
+export(calculate.powertables)
 export(get.contours)
+export(get.musd)
+export(get.table)
 export(go)
 export(power.grid)
 export(powerplot)
-export(reset.globals)
