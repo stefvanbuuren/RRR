@@ -25,14 +25,24 @@ shinyServer(function(input, output) {
         )})
     
     musd <- reactive({
+        if (input$disease == 'fibrosis') 
         get.musd(input$outcome,
                  input$hist.induced.mu, input$hist.induced.sd,
                  input$hist.control.mu, input$hist.control.sd,
-                 input$hist.treated.mu, input$hist.treated.sd,
+                 as.numeric(input$hist.treated.pct),
                  input$cola.induced.mu, input$cola.induced.sd,
                  input$cola.control.mu, input$cola.control.sd,
-                 input$cola.treated.mu, input$cola.treated.sd
-        )}) 
+                 as.numeric(input$cola.treated.pct)
+                 )
+        else 
+            get.musd(input$otheroutcome,
+                     input$out1.induced.mu, input$out1.induced.sd,
+                     input$out1.control.mu, input$out1.control.sd,
+                     as.numeric(input$out1.treated.pct),
+                     input$out2.induced.mu, input$out2.induced.sd,
+                     input$out2.control.mu, input$out2.control.sd,
+                     as.numeric(input$out2.treated.pct))
+        }) 
     
     create.pdf <- reactive({
         temp <- tempfile(fileext=".pdf")
@@ -54,11 +64,14 @@ shinyServer(function(input, output) {
 
     # Generate an HTML table view of the data
     output$table <- renderTable({
-        # musd <- musd()
         powertables <- powertables()
         ntreated <- as.numeric(input$ntreated)
         get.table(powertables, k = ntreated)
-    }, NA.string = "-", include.rownames = FALSE)
+    }, NA.string = "0", include.rownames = FALSE)
+    
+#        output$table <- renderMarkdown(
+#            file = file.path(path.package("RRR"),"md","table.Rmd")
+#        )
     
     output$downloadPdf <- downloadHandler(
         filename =  file.path(getwd(),paste("output","pdf",sep=".")),

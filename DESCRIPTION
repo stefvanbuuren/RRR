@@ -4,9 +4,11 @@ Title: Replacement, Reduction and Refinement
 Depends:
     shiny,
     pwr,
-    MASS
-Version: 0.4
-Date: 2013-09-11
+    MASS,
+    xtable,
+    markdown
+Version: 0.5
+Date: 2013-10-09
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical

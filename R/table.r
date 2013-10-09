@@ -10,10 +10,7 @@
 #' @export
 #' 
 get.table <- function(powertables, k = 3){
-    # ngrid <- expand.grid(c1$n1, c1$n2, c2$n2)
-    # aanhef: mu, sd (x 3)
     powertables <<- powertables
-    # p <- powertables$treated
     n.induced <- as.numeric(names(powertables$control.ctrs$contours[, "100"]))
     n.treated <- as.vector(powertables$treated.ctrs$contours)
     n.control <- as.vector(powertables$control.ctrs$contours[,"100"])
@@ -31,8 +28,9 @@ get.table <- function(powertables, k = 3){
 #                         p[, c("alpha", "power", "percent", "d", "sd")]
 #                         )
     result <- result[order( result[, "Total"]), ]
-    result <- decimals(result, c(0, 0, 0, 0, 2, 2))
-    # print(head(result, 200))
+    # result <- decimals(result, c(0, 0, 0, 0, 2, 2))
+    # result <- as.character(result)
+    # result$treais.na(result$treated)
     return(result)
 }
 

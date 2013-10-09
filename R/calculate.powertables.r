@@ -50,36 +50,37 @@ calculate.powertables <- function(
 #' @param hist.induced.sd SD of the induced group, histology
 #' @param hist.control.mu Mean of the control group, histology
 #' @param hist.control.sd SD of the control group, histology
-#' @param hist.treated.mu Mean of the treated group, histology
-#' @param hist.treated.sd SD of the treated group, histology
+#' @param hist.treated.pct Percent reduction in the treated group, histology
 #' @param cola.induced.mu Mean of the induced group, collagen
 #' @param cola.induced.sd SD of the induced group, collagen
 #' @param cola.control.mu Mean of the control group, collagen
 #' @param cola.control.sd SD of the control group, collagen
-#' @param cola.treated.mu Mean of the treated group, collagen
-#' @param cola.treated.sd SD of the treated group, collagen
+#' @param cola.treated.pct Percent reduction in the treated group, collagen
 #' @return A data frame of 3 rows and 2 columns 
 #' @export
 get.musd <- function(outcome,
                      hist.induced.mu, hist.induced.sd,
                      hist.control.mu, hist.control.sd,
-                     hist.treated.mu, hist.treated.sd,
+                     hist.treated.pct,
                      cola.induced.mu, cola.induced.sd,
                      cola.control.mu, cola.control.sd,
-                     cola.treated.mu, cola.treated.sd) 
+                     cola.treated.pct) 
 {
     musd <- matrix(NA, nrow = 3, ncol = 2, 
                    dimnames = list(c("Induced","Control","Treated"), c("mu","sd")))
-    if (outcome == "hist") {
+    if (outcome %in% c("hist", "out1")) {
         musd[1,] <- c(hist.induced.mu, hist.induced.sd)
         musd[2,] <- c(hist.control.mu, hist.control.sd)
-        musd[3,] <- c(hist.treated.mu, hist.treated.sd)
+        musd[3,] <- interpolate(musd[1,], musd[2,], hist.treated.pct)
     }
-    if (outcome == "cola") {
+    if (outcome %in% c("cola", "out2")) {
         musd[1,] <- c(cola.induced.mu, cola.induced.sd)
         musd[2,] <- c(cola.control.mu, cola.control.sd)
-        musd[3,] <- c(cola.treated.mu, cola.treated.sd)
+        musd[3,] <- interpolate(musd[1,], musd[2,], cola.treated.pct)
     }
     return(musd)
 }
 
+interpolate <- function(induced, control, percent) {
+    control + ((100 - percent) / 100) * (induced - control)
+}

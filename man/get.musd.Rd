@@ -3,10 +3,9 @@
 \title{Returns the musd matrix from the inputs}
 \usage{
   get.musd(outcome, hist.induced.mu, hist.induced.sd,
-    hist.control.mu, hist.control.sd, hist.treated.mu,
-    hist.treated.sd, cola.induced.mu, cola.induced.sd,
-    cola.control.mu, cola.control.sd, cola.treated.mu,
-    cola.treated.sd)
+    hist.control.mu, hist.control.sd, hist.treated.pct,
+    cola.induced.mu, cola.induced.sd, cola.control.mu,
+    cola.control.sd, cola.treated.pct)
 }
 \arguments{
   \item{outcome}{A string, either \code{hist} or
@@ -24,11 +23,8 @@
   \item{hist.control.sd}{SD of the control group,
   histology}
 
-  \item{hist.treated.mu}{Mean of the treated group,
-  histology}
-
-  \item{hist.treated.sd}{SD of the treated group,
-  histology}
+  \item{hist.treated.pct}{Percent reduction in the treated
+  group, histology}
 
   \item{cola.induced.mu}{Mean of the induced group,
   collagen}
@@ -40,10 +36,8 @@
 
   \item{cola.control.sd}{SD of the control group, collagen}
 
-  \item{cola.treated.mu}{Mean of the treated group,
-  collagen}
-
-  \item{cola.treated.sd}{SD of the treated group, collagen}
+  \item{cola.treated.pct}{Percent reduction in the treated
+  group, collagen}
 }
 \value{
   A data frame of 3 rows and 2 columns
