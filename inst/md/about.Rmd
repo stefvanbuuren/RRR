@@ -1,0 +1,34 @@
+About
+--------
+
+(c) 2013 Netherlands Organisation for Applied Scientific Research [TNO](http://www.tno.nl)
+
+Idea and realization: [Stef van Buuren](http://www.stefvanbuuren.nl), Reinout Stoop and Anne-Marie Zuurmond
+
+--------
+
+### TERMS OF SERVICE
+
+Unauthorized or improper use of the website or its content may breach intellectual property rights, regulations in respect of privacy, publication and/or communication in the broadest sense of the word. You are responsible for everything you send from the website.
+
+It is not allowed to disrupt the normal operation of this site or to undermine its integrity, which includes changing the content and hacking the website. TNO reserves the right to end, for whatever reason, the availability of the website and/or of certain services on the web page, or to restrict access to them.
+
+Although TNO has exercised due care to ensure the correctness of the information as stated on the website, TNO does not accept any responsibility for it. All content is provided “as is” and “as available”. Decisions which you take on the basis of this information will be at your own expense and risk. TNO does not give any guarantee in respect of the security of this website. Although TNO will do everything which is in reason possible to keep this website free of viruses, it cannot give any guarantee for this. TNO does not guarantee that this website will function faultless and without interruption.
+
+### EXCLUSION OF LIABILITY
+
+TNO, its directors, managers and employees will never be liable in respect of direct and/or indirect, immaterial or consequential damage including lost profit or income and loss of contracts or orders which in any way results from or is connected with, but does not have to be limited to:
+
+1. defects, viruses or other faults in equipment and other software in connection with access to or use of this website;
+2. the information which is offered on or via this website;
+3. the interception, modification or improper use of information sent to TNO or to you;
+4. the operation or unavailability of this website;
+5. misuse of this website;
+6. loss of data;
+7. downloading or using software made available through this website, or
+8. claims of third parties in connection with the use of this website.
+
+The exclusion of liability also applies if TNO has been informed of the possibility that such damage may occur.
+
+--------
+

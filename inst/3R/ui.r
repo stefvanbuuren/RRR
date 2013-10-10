@@ -1,9 +1,10 @@
 
 shinyUI(pageWithSidebar(
-    headerPanel("TNO 3R Power Calculator"),
+    headerPanel("TNO 3R Sample Size Calculator"),
     
     sidebarPanel(
-        selectInput(inputId = "disease",
+        wellPanel(
+            selectInput(inputId = "disease",
                     label = "Disease model",
                     choices = c("Lung fibrosis" = "fibrosis",
                                 "Other model"  = "other")
@@ -11,7 +12,6 @@ shinyUI(pageWithSidebar(
         
         conditionalPanel(
             condition = "input.disease == 'fibrosis'",
-            wellPanel(
                 selectInput(inputId = "outcome",
                             label = "Outcome",
                             choices = c("Histological fibrosis" = "hist",
@@ -27,7 +27,7 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "hist.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "30")
+                                selected = "50")
                 ),
                 
                 conditionalPanel(
@@ -39,14 +39,12 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "cola.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "50")
+                                selected = "70")
                 )
-            )
         ),
         
         conditionalPanel(
             condition = "input.disease == 'other'",
-            wellPanel(
                 selectInput(inputId = "otheroutcome",
                             label = "Outcome",
                             choices = c("Outcome 1" = "out1",
@@ -62,7 +60,7 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "out1.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "30")
+                                selected = "50")
                 )
                 ,
                 
@@ -75,24 +73,16 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "out2.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "50")
+                                selected = "70")
                 ))
         ),
         
         wellPanel(                                 
-            radioButtons(inputId = "scale",
-                         label = "Scale",
-                         choices = c("Absolute" = "absolute",
-                                     "Log" = "log"))
-            ,        
-            
             selectInput(inputId = "ntreated",
                         label = "Number of treated groups:",
                         choices = c(1, 2, 3, 4, 5, 6, 7, 8, 9),
-                        selected = 3)
-        ),
-        
-        wellPanel(
+                        selected = 3),
+            
             radioButtons(inputId = "alpha",
                          label = "Alpha",
                          choices = c("0.05" = "0.05",
@@ -106,16 +96,24 @@ shinyUI(pageWithSidebar(
                          selected = "80%")
         ),
         
-        downloadLink('downloadPdf', 'Download PDF')
+        wellPanel(
+        downloadButton('downloadTable', 'Download Table'),
+        downloadButton('downloadPdf', 'Download Graph')
+        # downloadButton('downloadSummary', 'Download Summary')
+        )
     ),
     
     mainPanel(
         tabsetPanel(
-            tabPanel(tableOutput("table")),
-#                 "Table", includeMarkdown(
-#                 file.path(path.package("RRR"),"md","table.Rmd"))),
-            tabPanel("Plot", plotOutput("mainplot", height = "700px")), 
-            tabPanel("Summary", verbatimTextOutput("summary"))
+            tabPanel("Table", 
+                     tableOutput("tablesym"),
+                     tableOutput("tableasym")),
+            tabPanel("Graph", plotOutput("mainplot", height = "700px")), 
+            tabPanel("Summary", 
+                     uiOutput("summary")),
+            tabPanel("About", includeMarkdown(
+                file.path(path.package("RRR"),"md","about.Rmd"))),
+            id = "panel"
         )
     )
 )

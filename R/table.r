@@ -28,11 +28,50 @@ get.table <- function(powertables, k = 3){
 #                         p[, c("alpha", "power", "percent", "d", "sd")]
 #                         )
     result <- result[order( result[, "Total"]), ]
-    # result <- decimals(result, c(0, 0, 0, 0, 2, 2))
-    # result <- as.character(result)
-    # result$treais.na(result$treated)
+    result <- decimals(result, c(0, 0, 0, 0, 2, 2))
+    result <- edits(result)
     return(result)
 }
+
+#' Calculate table of pair (n1, n2) with a given minimal power for symmetric design
+#' 
+#' @aliases get.table.symmetric
+#' 
+#' @param powertables A list produced by the \code{calculate.powertables()}
+#' @param k number of active treatment groups to be tested
+#' @return A data frame combinations of (n1, n2)
+#' @export
+#' 
+get.table.symmetric <- function(powertables, k = 3){
+    powertables <<- powertables
+
+    n.induced <- powertables$sym.control$n1
+    n.treated <- powertables$sym.treated$n2
+    n.control <- powertables$sym.control$n2
+    powerIC <- powertables$sym.control$power
+    powerIT <- powertables$sym.treated$power
+    n.total <- n.induced + n.control + k * n.treated
+    
+    idx <- powertables$sym.has.enough.power
+    if (any(idx))
+        result <- data.frame(Total = n.total[idx][1],
+                         Induced = n.induced[idx][1],
+                         Control = n.control[idx][1],
+                         Treated = n.treated[idx][1],
+                         Power.IC = powerIC[idx][1],
+                         Power.IT = powerIT[idx][1])
+    else 
+        result <- data.frame(Total = "-",
+                             Induced = ">30",
+                             Control = ">30",
+                             Treated = ">30",
+                             power.IC = "-",
+                             power.IT = "-")
+
+    result <- decimals(result, c(0, 0, 0, 0, 2, 2))
+    return(result)
+}
+
 
 ## 
 ## summary table
@@ -71,4 +110,14 @@ decimals <- function(df, dec){
     df2 <- df
     for (j in 1:nc) df2[, j] <- format.num(df, j, dec)
     df2
+}
+
+edits <- function(df){
+    df[[1]][df[[1]] == "NA"] <- "-"
+    df[[2]][df[[2]] == "NA"] <- ">30"
+    df[[3]][df[[3]] == "NA"] <- ">30"
+    df[[4]][df[[4]] == "NA"] <- ">30"
+    df[[5]][df[[5]] == "NA"] <- "-"
+    df[[6]][df[[6]] == "NA"] <- "-"
+    df
 }

@@ -1,16 +1,22 @@
 
 # setwd("/Users/stefvanbuuren/Documents/Sync/W/My Documents/Diversen/dierproeven/Stoop/RRR/R")
 library("RRR")
+treated <- 0
 
 shinyServer(function(input, output) {
     
     draw.plot <- function() {
-        ntreated <- as.numeric(input$ntreated)
+        ntreated <<- as.numeric(input$ntreated)
         # iscontrol <- input$comparison == "control"
         iscontrol <- TRUE
-        main <- ifelse(input$outcome == "hist", 
-                       "Histology left lobe", 
-                       "Collagen Accessory & Medial")
+        if (input$disease == "fibrosis") 
+            main <- ifelse(input$outcome == "hist", 
+                           "Histology left lobe", 
+                           "Collagen Accessory & Medial")
+        if (input$disease == "other") 
+            main <- ifelse(input$otheroutcome == "out1", 
+                            "Outcome 1",
+                            "Outcome 2")
         powertables <- powertables()
         powerplot(powertables, main = main, isPBS = iscontrol)
     }
@@ -47,14 +53,50 @@ shinyServer(function(input, output) {
     create.pdf <- reactive({
         temp <- tempfile(fileext=".pdf")
         
-        pdf(file = temp, height = 7, width = 7)
+        pdf(file = temp, height = 7, width = 7, useDingbats = FALSE)
         draw.plot()
         dev.off()
         
         return(temp)
     })
     
-            
+    create.table.sym <- reactive({
+        powertables <- powertables()
+        ntreated <- as.numeric(input$ntreated)
+        get.table.symmetric(powertables, k = ntreated)
+    })
+        
+    create.table.asym <- reactive({
+        powertables <- powertables()
+        ntreated <- as.numeric(input$ntreated)
+        get.table(powertables, k = ntreated)
+    })
+    
+    create.summary <- reactive({
+        ntreated <<- as.numeric(input$ntreated)
+        alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
+        power1 <<- switch(input$power, "80%" = 0.8, 
+                         "90%" = 0.9,
+                         "50%" = 0.5)
+        musdval <<- musd()
+        table.sym <<- create.table.sym()
+        table.asym <<- create.table.asym()
+        includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"))
+    })
+
+    create.summary.print <- reactive({
+        ntreated <<- as.numeric(input$ntreated)
+        alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
+        power1 <<- switch(input$power, "80%" = 0.8, 
+                          "90%" = 0.9,
+                          "50%" = 0.5)
+        musdval <<- musd()
+        table.sym <<- create.table.sym()
+        table.asym <<- create.table.asym()
+        includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"), 
+                   fragment.only = FALSE)
+    })
+    
     output$mainplot <- renderPlot(
         draw.plot(), 
         width = 700,
@@ -63,18 +105,24 @@ shinyServer(function(input, output) {
     )
 
     # Generate an HTML table view of the data
-    output$table <- renderTable({
-        powertables <- powertables()
-        ntreated <- as.numeric(input$ntreated)
-        get.table(powertables, k = ntreated)
-    }, NA.string = "0", include.rownames = FALSE)
+    output$tablesym <- renderTable(
+        create.table.sym(), 
+        include.rownames = FALSE,
+        caption = "Symmetric design", 
+        caption.placement = "top"
+    )
     
-#        output$table <- renderMarkdown(
-#            file = file.path(path.package("RRR"),"md","table.Rmd")
-#        )
-    
+    output$tableasym <- renderTable(
+        create.table.asym(), 
+        include.rownames = FALSE,
+        caption = "Asymmetric design", 
+        caption.placement = "top"
+    )
+        
+    output$summary <- renderUI(create.summary())
+
     output$downloadPdf <- downloadHandler(
-        filename =  file.path(getwd(),paste("output","pdf",sep=".")),
+        filename =  "output.pdf",
         content = function(filepath) {
             pdffile <- create.pdf()
             on.exit(unlink(pdffile))
@@ -82,6 +130,30 @@ shinyServer(function(input, output) {
             writeBin(bytes, filepath)
         }
     )
+
+    output$downloadTable <- downloadHandler(
+        filename = "table.txt",
+        content = function(file) {
+            write.table(create.table.sym(), 
+                        file = file, sep = "\t", quote = FALSE,
+                        row.names = FALSE)
+            write.table(create.table.asym(), 
+                        file = file, sep = "\t", quote = FALSE,
+                        append = TRUE, 
+                        row.names = FALSE, col.names = FALSE)
+        }
+    )
+    
+    output$downloadSummary <- downloadHandler(
+        filename = "mysummary.html",
+        content = function(file) {
+            out <- create.summary.print()
+            file.rename("summary.html", file)
+        },
+        contentType = "application/html"
+    )
+    
+
 }
 )
 

@@ -7,8 +7,8 @@ Depends:
     MASS,
     xtable,
     markdown
-Version: 0.5
-Date: 2013-10-09
+Version: 0.6
+Date: 2013-10-11
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
@@ -24,3 +24,4 @@ Collate:
     'table.r'
     'calculate.powertables.r'
     'get.contours.r'
+    'includeRnw.r'

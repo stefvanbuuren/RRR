@@ -40,7 +40,7 @@
   group, collagen}
 }
 \value{
-  A data frame of 3 rows and 2 columns
+  A data frame of 4 rows and 2 columns
 }
 \description{
   Returns the musd matrix from the inputs

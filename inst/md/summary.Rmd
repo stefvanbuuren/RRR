@@ -1,0 +1,34 @@
+Summary
+--------
+
+The objective to make two comparisons of interest:
+
+1. Compare the mean of the induced group to the mean of the control group;
+2. Compare the mean of the induced group to the means of `r ntreated` treatment groups.
+
+The sample size calculation is made for the two-group _t_-test with unequal variances. It is assumed that `r ntreated + 1` tests are performed. The level of significance is set to `r alpha`. The power in each test should be equal to or higher than `r power1`.
+
+The calculation uses the following means and standard deviations:
+
+```{r setup, echo=FALSE}
+musdval[1:3,]
+```
+
+where the mean and standard deviation for the treatment condition 
+correspond to a reduction of `r musdval[4]`%.
+
+The optimal symmetric experimental design, with groups of equal size, requires 
+**`r ifelse(table.sym[1,1]=='-', paste('more than', (ntreated+2)*30),table.sym[1,1])`** 
+experimental subjects. The smallest asymetric experiment requires 
+**`r ifelse(table.asym[1,1]=='-', paste('more than', (ntreated+1)*30+2),table.asym[1,1])``** 
+experimental subjects. 
+
+The five most efficient designs are 
+
+```{r design, echo=FALSE}
+print(table.asym[1:5,], row.names = FALSE)
+```
+
+`r date()`      [TNO 3R Sample Size Calculator](http://vps.stefvanbuuren.nl:3838/3R/)
+
+--------

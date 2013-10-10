@@ -34,8 +34,14 @@ calculate.powertables <- function(
                           power = power)
     control.ctrs <- get.contours(control, power = power)
     
+    sym.control <- control[control$n1 == control$n2 & control$percent == 100, ]
+    sym.treated <- treated[treated$n1 == treated$n2, ]
+    sym.has.enough.power <- sym.treated$power > power
+    
     return(list (control = control, control.ctrs = control.ctrs, 
                  treated = treated, treated.ctrs = treated.ctrs,
+                 sym.control = sym.control, sym.treated = sym.treated,
+                 sym.has.enough.power = sym.has.enough.power,
                  alpha = alpha, power = power, 
                  alternative = alternative))
 }
@@ -56,7 +62,7 @@ calculate.powertables <- function(
 #' @param cola.control.mu Mean of the control group, collagen
 #' @param cola.control.sd SD of the control group, collagen
 #' @param cola.treated.pct Percent reduction in the treated group, collagen
-#' @return A data frame of 3 rows and 2 columns 
+#' @return A data frame of 4 rows and 2 columns 
 #' @export
 get.musd <- function(outcome,
                      hist.induced.mu, hist.induced.sd,
@@ -66,17 +72,19 @@ get.musd <- function(outcome,
                      cola.control.mu, cola.control.sd,
                      cola.treated.pct) 
 {
-    musd <- matrix(NA, nrow = 3, ncol = 2, 
-                   dimnames = list(c("Induced","Control","Treated"), c("mu","sd")))
+    musd <- matrix(NA, nrow = 4, ncol = 2, 
+                   dimnames = list(c("Induced","Control","Treated","Percent"), c("mu","sd")))
     if (outcome %in% c("hist", "out1")) {
         musd[1,] <- c(hist.induced.mu, hist.induced.sd)
         musd[2,] <- c(hist.control.mu, hist.control.sd)
         musd[3,] <- interpolate(musd[1,], musd[2,], hist.treated.pct)
+        musd[4,] <- rep(hist.treated.pct, 2)
     }
     if (outcome %in% c("cola", "out2")) {
         musd[1,] <- c(cola.induced.mu, cola.induced.sd)
         musd[2,] <- c(cola.control.mu, cola.control.sd)
         musd[3,] <- interpolate(musd[1,], musd[2,], cola.treated.pct)
+        musd[4,] <- rep(cola.treated.pct, 2)
     }
     return(musd)
 }

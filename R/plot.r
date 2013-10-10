@@ -91,14 +91,28 @@ powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) 
     polygon(x = xy, col = "grey99", border = NA)
     abline(h = seq(0,30,5), v = seq(0,30,5), lty = 2, col = "grey") 
 
+    mycolors <- rev(c("black","red","green","brown","blue","violet","pink","lightblue",
+                    "grey","darkred"))
     x <- as.numeric(dimnames(cnt)[[1]])
     matlines(y = cnt[], x = x, lwd = 2, lty = 1,
-             col = rev(c("black","red","green","brown","blue","violet","pink","lightblue",
-                         "grey","darkred")))
+             col = mycolors)
     matpoints(y = cnt[], x = as.numeric(rownames(cnt)), lwd = 2, 
               pch = 21, bg = c("darkred", rep("white", 9)), 
-              col = rev(c("black","red","green","brown","blue","violet","pink","lightblue",
-                          "grey","darkred")))
+              col = mycolors)
+
+    ## right-justifying a set of labels: thanks to Uwe Ligges
+    temp <- legend(xy.coords(x = c(-2,7), y = c(30, 25)),
+                   legend = paste(seq(100, 10, -10), "%", sep = ""),
+                   text.width = strwidth("1,000,000"),
+                   lty = 1, lwd = 2, pch = 21, 
+                   bty = 'n', ncol = 2,
+                   xjust = 1, yjust = 1, xpd = NA,
+                   col = rev(mycolors), title = "Percent reduction", 
+                   cex = 0.7, pt.bg = "white")
+#    text(temp$rect$left + temp$rect$w, temp$text$y,
+#         paste(seq(100, 10, -10), "%", sep = ""), pos = 2, 
+#         cex = 0.7)
+    
     return(NULL)
 }
 

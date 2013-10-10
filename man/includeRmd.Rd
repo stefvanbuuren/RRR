@@ -1,0 +1,24 @@
+\name{includeRmd}
+\alias{includeRmd}
+\alias{includeRmw}
+\title{Compiles Rmd and output html}
+\usage{
+  includeRmd(path, envir = parent.frame(),
+    fragment.only = TRUE)
+}
+\arguments{
+  \item{path}{file name of the .Rnw file}
+
+  \item{envir}{the environment in which chucks are
+  evaluated}
+
+  \item{fragment.only}{logical passed to the knit2html()
+  function}
+}
+\value{
+  html vector
+}
+\description{
+  Compiles Rmd and output html
+}
+
