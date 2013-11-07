@@ -32,7 +32,6 @@ get.contours <- function(z, power = 0.8){
             powers[s, i] <- ifelse(sum(flags) == 1, v[flags, "power"], NA)
         }
     }
-    # browser()
     contours[contours > ran[2]] <- NA
     return(list(contours = contours,
                 powers = powers))

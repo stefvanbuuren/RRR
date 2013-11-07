@@ -6,7 +6,8 @@ The objective to make two comparisons of interest:
 1. Compare the mean of the induced group to the mean of the control group;
 2. Compare the mean of the induced group to the means of `r ntreated` treatment groups.
 
-The sample size calculation is made for the two-group _t_-test with unequal variances. It is assumed that `r ntreated + 1` tests are performed. The level of significance is set to `r alpha`. The power in each test should be equal to or higher than `r power1`.
+The sample size calculation is made for the two-group _t_-test with equal variances
+and unequal sample sizes. It is assumed that `r ntreated + 1` tests are performed. The level of significance is set to `r alpha`. The power in each test should be equal to or higher than `r power1`.
 
 The calculation uses the following means and standard deviations:
 

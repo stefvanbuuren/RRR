@@ -13,7 +13,6 @@ includeRmd <- function(path, envir = parent.frame(),
         stop("knitr package is not installed")
     if (!require(markdown))
         stop("Markdown package is not installed")
-    shiny:::dependsOnFile(path)
     contents <- paste(readLines(path, warn = FALSE), collapse = '\n')
     html <- knitr::knit2html(text = contents, envir = envir, fragment.only = fragment.only)
     Encoding(html) <- 'UTF-8'

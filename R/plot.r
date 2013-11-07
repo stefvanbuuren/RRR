@@ -38,8 +38,14 @@ power.grid <- function(n1 = 2:30,
     nn2 <- nn[,2]
     pct <- nn[,3]
     
+    # set minimum n = 10 for calculating effect size
+    # in order to prevent "larger power for smaller samples"
+    # for the t-test assuming equal variances
+    esn1 <- 10
+    esn2 <- 10
+    
     # unequal groups sd and d
-    sd <- sqrt((sd1^2 * (nn1 - 1) + sd2^2 * (nn2 - 1)) / (nn1 + nn2 - 2))
+    sd <- sqrt((sd1^2 * (esn1 - 1) + sd2^2 * (esn2 - 1)) / (esn1 + esn2 - 2))
     d <- (mu2 - mu1) / sd
     d <- d * pct / 100
     
@@ -58,6 +64,20 @@ power.grid <- function(n1 = 2:30,
     return(output)
 }
 
+t.power <- function(nsamp = c(10,10), 
+                     nsim = 1000,
+                     means = c(0,0),
+                     sds = c(1,1), 
+                     var.equal = TRUE){
+    # from http://statistics.berkeley.edu/computing/r-t-tests
+    # also covers unequal variances
+    tps <- replicate(nsim,
+                    t.test(rnorm(nsamp[1],mean=means[1],sd=sds[1]),
+                           rnorm(nsamp[2],mean=means[2],sd=sds[2]))$p.value)
+    
+    sum(tps < .025 | tps > .975) / nsim
+}
+
 #' Create the chart with power lines
 #' 
 #' @aliases powerplot
@@ -71,9 +91,7 @@ power.grid <- function(n1 = 2:30,
 #' @export
 powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) {
     xlab <- ifelse(isPBS, "n (control)", "n (treated)")
-    # cnt <- get.contours(z, power = power)
     cnt <- powertables$treated.ctrs$contours
-    # browser()
     if (isPBS) cnt <- powertables$control.ctrs$contours
     x <- as.numeric(dimnames(cnt)[[1]])
     y <- powertables$treated.ctrs$contours
@@ -83,11 +101,13 @@ powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) 
     eqscplot(x = c(0, 30), y = c(0, 30), xlim = c(0, 30), ylim = c(0, 30), 
              col = "transparent", xlab = xlab, ylab = "n (induced)",
              main = main, ...)
-    xy <- xy.coords(x = c(min(x), x, 35, 35),
-                    y = c(35, y, min(y), 35))
+    minx <- ifelse(all(is.na(x)), -5, min(x, na.rm = TRUE))
+    miny <- ifelse(all(is.na(y)), -5, min(y, na.rm = TRUE))
+    xy <- xy.coords(x = c(minx, x, 35, 35),
+                    y = c(35, y, miny, 35))
     polygon(x = xy, col = rgb(207,232,207,maxColorValue=255), border = NA)
-    xy <- xy.coords(x = c(-5, min(x), x, 35, 35, -5),
-                    y = c(35, 35,     y, min(y), -5, -5))
+    xy <- xy.coords(x = c(-5, minx, x, 35, 35, -5),
+                    y = c(35, 35, y, miny, -5, -5))
     polygon(x = xy, col = "grey99", border = NA)
     abline(h = seq(0,30,5), v = seq(0,30,5), lty = 2, col = "grey") 
 
