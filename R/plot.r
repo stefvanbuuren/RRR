@@ -16,6 +16,8 @@
 #'        power curves should be calculated 
 #' @param alpha Significance level of the test
 #' @param power Power of the test
+#' @param interpolate.sd2 Should the sd2 parameter be interpolated 
+#'          along with \code{percent}?
 #' @param \dots Additional arguments passed to \code{pwr.t2n.test()}
 #' @return A data frame with rows corresponding to different designs
 #' @export
@@ -29,6 +31,7 @@ power.grid <- function(n1 = 2:30,
                        percent = 100,
                        alpha = 0.05,
                        power = 0.80, 
+                       interpolate.sd2 = FALSE,
                        ...) {
     alternative <- match.arg(alternative)
     
@@ -37,6 +40,12 @@ power.grid <- function(n1 = 2:30,
     nn1 <- nn[,1]
     nn2 <- nn[,2]
     pct <- nn[,3]
+    
+    # if desired, interpolate sd2 along with percent
+    if (interpolate.sd2) {
+        p <- length(pct)
+        sd2 <- interpolate(rep(sd1, p), rep(sd2, p), pct)
+    }
     
     # set minimum n = 10 for calculating effect size
     # in order to prevent "larger power for smaller samples"

@@ -31,7 +31,8 @@ calculate.powertables <- function(
                           percent = seq(100, 10, -10), 
                           alternative = "less", 
                           alpha = alpha,
-                          power = power)
+                          power = power, 
+                          interpolate.sd2 = TRUE)
     control.ctrs <- get.contours(control, power = power)
     
     sym.control <- control[control$n1 == control$n2 & control$percent == 100, ]

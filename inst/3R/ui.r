@@ -6,14 +6,15 @@ shinyUI(pageWithSidebar(
         wellPanel(
             selectInput(inputId = "disease",
                     label = "Disease model",
-                    choices = c("Lung fibrosis" = "fibrosis",
-                                "Other model"  = "other")
+                    choices = c("Model"  = "other",
+                                "Lung fibrosis" = "fibrosis"),
+                        selected = "Model"
         ),
         
         conditionalPanel(
             condition = "input.disease == 'fibrosis'",
                 selectInput(inputId = "outcome",
-                            label = "Outcome",
+                            label = "Parameter",
                             choices = c("Histological fibrosis" = "hist",
                                         "Collagen content" = "cola")
                 ),
@@ -46,7 +47,7 @@ shinyUI(pageWithSidebar(
         conditionalPanel(
             condition = "input.disease == 'other'",
                 selectInput(inputId = "otheroutcome",
-                            label = "Outcome",
+                            label = "Parameter",
                             choices = c("Outcome 1" = "out1",
                                         "Outcome 2" = "out2")                
                 ),
@@ -60,7 +61,7 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "out1.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "50")
+                                selected = "80")
                 )
                 ,
                 
@@ -73,7 +74,7 @@ shinyUI(pageWithSidebar(
                     selectInput(inputId = "out2.treated.pct",
                                 label = "Percent reduction: ",
                                 choices = seq(0, 100, 10),
-                                selected = "70")
+                                selected = "80")
                 ))
         ),
         

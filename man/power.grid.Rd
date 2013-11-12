@@ -5,7 +5,8 @@
   power.grid(n1 = 2:30, n2 = 2:30, mu1 = 0, mu2 = 1,
     sd1 = 1, sd2 = 1,
     alternative = c("two.sided", "less", "greater"),
-    percent = 100, alpha = 0.05, power = 0.8, ...)
+    percent = 100, alpha = 0.05, power = 0.8,
+    interpolate.sd2 = FALSE, ...)
 }
 \arguments{
   \item{n1}{Vector of samples sizes for untreated, diseased
@@ -33,6 +34,9 @@
   \item{alpha}{Significance level of the test}
 
   \item{power}{Power of the test}
+
+  \item{interpolate.sd2}{Should the sd2 parameter be
+  interpolated along with \code{percent}?}
 
   \item{\dots}{Additional arguments passed to
   \code{pwr.t2n.test()}}

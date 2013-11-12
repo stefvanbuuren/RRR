@@ -23,10 +23,8 @@ get.table <- function(powertables, k = 3){
                          Induced = n.induced,
                          Control = n.control,
                          Treated = n.treated,
-                         Power.IC = powerIC,
-                         Power.IT = powerIT)
-#                         p[, c("alpha", "power", "percent", "d", "sd")]
-#                         )
+                         Power_IC = powerIC,
+                         Power_IT = powerIT)
     result <- result[order( result[, "Total"]), ]
     result <- decimals(result, c(0, 0, 0, 0, 2, 2))
     result <- edits(result)
@@ -58,15 +56,15 @@ get.table.symmetric <- function(powertables, k = 3){
                          Induced = n.induced[idx][1],
                          Control = n.control[idx][1],
                          Treated = n.treated[idx][1],
-                         Power.IC = powerIC[idx][1],
-                         Power.IT = powerIT[idx][1])
+                         Power_IC = powerIC[idx][1],
+                         Power_IT = powerIT[idx][1])
     else 
         result <- data.frame(Total = "-",
                              Induced = ">30",
                              Control = ">30",
                              Treated = ">30",
-                             power.IC = "-",
-                             power.IT = "-")
+                             power_IC = "-",
+                             power_IT = "-")
 
     result <- decimals(result, c(0, 0, 0, 0, 2, 2))
     return(result)
