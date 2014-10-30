@@ -9,12 +9,10 @@
 #' @export
 includeRmd <- function(path, envir = parent.frame(),
                        fragment.only = TRUE){
-    if (!require(knitr))
-        stop("knitr package is not installed")
-    if (!require(markdown))
-        stop("Markdown package is not installed")
+    #if (!require(knitr)) stop("knitr package is not installed")
+    #if (!require(markdown)) stop("Markdown package is not installed")
     contents <- paste(readLines(path, warn = FALSE), collapse = '\n')
-    html <- knitr::knit2html(text = contents, envir = envir, fragment.only = fragment.only)
+    html <- knit2html(text = contents, envir = envir, fragment.only = fragment.only, quiet = TRUE)
     Encoding(html) <- 'UTF-8'
     return(HTML(html))
 }

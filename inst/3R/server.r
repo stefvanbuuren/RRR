@@ -11,8 +11,8 @@ shinyServer(function(input, output) {
         iscontrol <- TRUE
         if (input$disease == "fibrosis") 
             main <- ifelse(input$outcome == "hist", 
-                           "Histology left lobe", 
-                           "Collagen Accessory & Medial")
+                           "Histological fibrosis score", 
+                           "Collagen content")
         if (input$disease == "other") 
             main <- ifelse(input$otheroutcome == "out1", 
                             "Outcome 1",

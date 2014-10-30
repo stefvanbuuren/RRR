@@ -8,7 +8,7 @@ shinyUI(pageWithSidebar(
                     label = "Disease model",
                     choices = c("Model"  = "other",
                                 "Lung fibrosis" = "fibrosis"),
-                        selected = "Model"
+                        selected = "other"
         ),
         
         conditionalPanel(

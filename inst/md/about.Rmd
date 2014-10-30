@@ -1,7 +1,7 @@
 About
 --------
 
-(c) 2013 Netherlands Organisation for Applied Scientific Research [TNO](http://www.tno.nl)
+(c) 2014 Netherlands Organisation for Applied Scientific Research [TNO](http://www.tno.nl)
 
 Idea and realization: [Stef van Buuren](http://www.stefvanbuuren.nl), Reinout Stoop and Anne-Marie Zuurmond
 

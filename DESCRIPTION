@@ -7,8 +7,10 @@ Depends:
     MASS,
     xtable,
     markdown
-Version: 0.8
-Date: 2013-11-12
+Imports:
+    knitr
+Version: 1.1
+Date: 2014-10-30
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
@@ -16,12 +18,4 @@ Description: Tools for reducing the number animals needed for biomemedical
     treatment group are compared to one control group.
 License: GPL-2
 LazyData: Yes
-Copyright: Stef van Buuren 2013
-Collate:
-    'plot.r'
-    'rho.r'
-    'go.r'
-    'table.r'
-    'calculate.powertables.r'
-    'get.contours.r'
-    'includeRnw.r'
+Copyright: Stef van Buuren 2014
