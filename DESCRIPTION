@@ -9,7 +9,7 @@ Depends:
     markdown
 Imports:
     knitr
-Version: 1.2
+Version: 1.3
 Date: 2015-01-09
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>

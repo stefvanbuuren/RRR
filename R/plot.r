@@ -101,7 +101,7 @@ t.power <- function(nsamp = c(10,10),
 powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) {
     # xlab <- ifelse(isPBS, "n (control)", "n (treated)")
     xlab <- "n (control or treated)"
-    xlab <- "n (control)"   # 9jan15 - for MS plot    
+#    xlab <- "n (control)"   # 9jan15 - for MS plot    
     cnt <- powertables$treated.ctrs$contours
     if (isPBS) cnt <- powertables$control.ctrs$contours
     x <- as.numeric(dimnames(cnt)[[1]])
@@ -120,31 +120,31 @@ powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) 
     miny <- ifelse(all(is.na(y)), -5, min(y, na.rm = TRUE))
     xy <- xy.coords(x = c(minx, x, 35, 35),
                     y = c(35, y, miny, 35))
-    # if (length(x) > 0) polygon(x = xy, col = rgb(207,232,207,maxColorValue=255), border = NA)
+    if (length(x) > 0) polygon(x = xy, col = rgb(207,232,207,maxColorValue=255), border = NA)
     #xy <- xy.coords(x = c(-5, minx, x, 35, 35, -5),
     #                y = c(35, 35, y, miny, -5, -5))
     abline(h = seq(0,30,5), v = seq(0,30,5), lty = 2, col = "grey") 
 
     mycolors <- rev(c("black","red","green","brown","blue","violet","pink","lightblue",
                     "grey","darkred"))
-    mycolors <- rev(c("black",rep("transparent", 9)))  # 9jan15 - for MS plot
+    # mycolors <- rev(c("black",rep("transparent", 9)))  # 9jan15 - for MS plot
     x <- as.numeric(dimnames(cnt)[[1]])
     matlines(y = cnt[], x = x, lwd = 2, lty = 1,
              col = mycolors)
     matpoints(y = cnt[], x = as.numeric(rownames(cnt)), lwd = 2, 
-#              pch = 21, bg = c("darkred", rep("white", 9)), 
-              pch = 21, bg = c("darkred", rep("transparent", 9)), # 9jan15 - for MS plot
+              pch = 21, bg = c("darkred", rep("white", 9)), 
+#              pch = 21, bg = c("darkred", rep("transparent", 9)), # 9jan15 - for MS plot
               col = mycolors)
 
     ## right-justifying a set of labels: thanks to Uwe Ligges
-#     temp <- legend(xy.coords(x = c(-2,7), y = c(30, 25)),
-#                    legend = paste(seq(100, 10, -10), "%", sep = ""),
-#                    text.width = strwidth("1,000,000"),
-#                    lty = 1, lwd = 2, pch = 21, 
-#                    bty = 'n', ncol = 2,
-#                    xjust = 1, yjust = 1, xpd = NA,
-#                    col = rev(mycolors), title = "Percent reduction", 
-#                    cex = 0.7, pt.bg = "white")
+    temp <- legend(xy.coords(x = c(-2,7), y = c(30, 25)),
+                   legend = paste(seq(100, 10, -10), "%", sep = ""),
+                   text.width = strwidth("1,000,000"),
+                   lty = 1, lwd = 2, pch = 21, 
+                   bty = 'n', ncol = 2,
+                   xjust = 1, yjust = 1, xpd = NA,
+                   col = rev(mycolors), title = "Percent reduction", 
+                   cex = 0.7, pt.bg = "white")
     #    text(temp$rect$left + temp$rect$w, temp$text$y,
 #         paste(seq(100, 10, -10), "%", sep = ""), pos = 2, 
 #         cex = 0.7)
