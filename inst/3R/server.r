@@ -15,8 +15,8 @@ shinyServer(function(input, output) {
                            "Collagen content")
         if (input$disease == "other") 
             main <- ifelse(input$otheroutcome == "out1", 
-                            "Outcome 1",
-                            "Outcome 2")
+                           "Outcome 1",
+                           "Outcome 2")
         powertables <- powertables()
         powerplot(powertables, main = main, isPBS = iscontrol)
     }
@@ -32,14 +32,14 @@ shinyServer(function(input, output) {
     
     musd <- reactive({
         if (input$disease == 'fibrosis') 
-        get.musd(input$outcome,
-                 input$hist.induced.mu, input$hist.induced.sd,
-                 input$hist.control.mu, input$hist.control.sd,
-                 as.numeric(input$hist.treated.pct),
-                 input$cola.induced.mu, input$cola.induced.sd,
-                 input$cola.control.mu, input$cola.control.sd,
-                 as.numeric(input$cola.treated.pct)
-                 )
+            get.musd(input$outcome,
+                     input$hist.induced.mu, input$hist.induced.sd,
+                     input$hist.control.mu, input$hist.control.sd,
+                     as.numeric(input$hist.treated.pct),
+                     input$cola.induced.mu, input$cola.induced.sd,
+                     input$cola.control.mu, input$cola.control.sd,
+                     as.numeric(input$cola.treated.pct)
+            )
         else 
             get.musd(input$otheroutcome,
                      input$out1.induced.mu, input$out1.induced.sd,
@@ -48,10 +48,10 @@ shinyServer(function(input, output) {
                      input$out2.induced.mu, input$out2.induced.sd,
                      input$out2.control.mu, input$out2.control.sd,
                      as.numeric(input$out2.treated.pct))
-        }) 
+    }) 
     
     create.pdf <- reactive({
-        temp <- tempfile(fileext=".pdf")
+        temp <- tempfile(fileext = ".pdf")
         
         pdf(file = temp, height = 7, width = 7, useDingbats = FALSE)
         draw.plot()
@@ -65,7 +65,7 @@ shinyServer(function(input, output) {
         ntreated <- as.numeric(input$ntreated)
         get.table.symmetric(powertables, k = ntreated)
     })
-        
+    
     create.table.asym <- reactive({
         powertables <- powertables()
         ntreated <- as.numeric(input$ntreated)
@@ -76,14 +76,14 @@ shinyServer(function(input, output) {
         ntreated <<- as.numeric(input$ntreated)
         alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
         power1 <<- switch(input$power, "80%" = 0.8, 
-                         "90%" = 0.9,
-                         "50%" = 0.5)
+                          "90%" = 0.9,
+                          "50%" = 0.5)
         musdval <<- musd()
         table.sym <<- create.table.sym()
         table.asym <<- create.table.asym()
         includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"))
     })
-
+    
     create.summary.print <- reactive({
         ntreated <<- as.numeric(input$ntreated)
         alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
@@ -98,12 +98,12 @@ shinyServer(function(input, output) {
     })
     
     output$mainplot <- renderPlot(
-        draw.plot(), 
+        draw.plot(),
         width = 700,
         height = 700, 
         res = 108
     )
-
+    
     # Generate an HTML table view of the data
     output$tablesym <- renderTable(
         create.table.sym(), 
@@ -118,19 +118,28 @@ shinyServer(function(input, output) {
         caption = "Asymmetric design", 
         caption.placement = "top"
     )
-        
+    
     output$summary <- renderUI(create.summary())
-
+    
     output$downloadPdf <- downloadHandler(
-        filename =  "output.pdf",
-        content = function(filepath) {
+        filename = function() {paste('my-figure', sep = '.', 'pdf')},
+        content = function(file) {
             pdffile <- create.pdf()
-            on.exit(unlink(pdffile))
-            bytes <- readBin(pdffile, "raw", file.info(pdffile)$size)
-            writeBin(bytes, filepath)
+            
+            # create temporary directory
+            owd <- setwd(tempdir())
+            on.exit(setwd(owd))
+            file.copy(from = pdffile, to = file, overwrite = TRUE)
+            # file.rename(from = filename, to = file)
+            
+            #on.exit(unlink(pdffile))
+            #bytes <- readBin(pdffile, "raw", file.info(pdffile)$size)
+            #writeBin(bytes, filepath)
         }
     )
-
+    
+    
+    
     output$downloadTable <- downloadHandler(
         filename = "table.txt",
         content = function(file) {
@@ -153,7 +162,7 @@ shinyServer(function(input, output) {
         contentType = "application/html"
     )
     
-
+    
 }
 )
 
