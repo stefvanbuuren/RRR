@@ -122,7 +122,7 @@ shinyUI(
                    tabPanel("Graph", plotOutput("mainplot", height = "700px")), 
                    tabPanel("Summary", 
                             uiOutput("summary")),
-                   tabPanel("Help", includeMarkdown(
+                   tabPanel("How to use", includeMarkdown(
                        file.path(path.package("RRR"),"md","help.Rmd"))),
                    tabPanel("About", includeMarkdown(
                        file.path(path.package("RRR"),"md","about.Rmd"))),

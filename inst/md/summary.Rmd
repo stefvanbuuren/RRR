@@ -20,7 +20,7 @@ correspond to a reduction of `r musdval[4]`%.
 
 The optimal symmetric experimental design, with groups of equal size, requires 
 **`r ifelse(table.sym[1,1]=='-', paste('more than', (ntreated+2)*30),table.sym[1,1])`** 
-experimental subjects. The smallest asymetric experiment requires 
+experimental subjects. The smallest asymmetric experiment requires 
 **`r ifelse(table.asym[1,1]=='-', paste('more than', (ntreated+1)*30+2),table.asym[1,1])``** 
 experimental subjects. 
 

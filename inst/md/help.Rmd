@@ -1,9 +1,9 @@
-Help
-----
+How to use
+------
 
-## Goal 
+This application calculates sample sizes for animal experiments with an *asymmetric design*, i.e. designs where the number of animals per group differ. 
 
-This application calculates sample sizes for animal experiments with an *asymmetric design*, i.e. where the number of animals per group differ. The asymmetric design used here assumes that only the comparisons between each treated group and one special group are of interest. Allocating more animals to the special group is efficient because the larger special group is used for all comparisons. The application calculates the sample sizes needed for asymmetric designs with one special group, up to nine treatment groups, and for up to 30 animals per group. For comparison, the sample sizes for the corresponding symmetric design are also calculated.
+The asymmetric design used here assumes that only the comparisons between each treated group and one special group are of interest. Allocating more animals to the special group is efficient because the larger special group is used for all comparisons. For comparison, the sample sizes for the corresponding symmetric design are also calculated.
 
 ## Inputs
 
@@ -22,7 +22,7 @@ This application calculates sample sizes for animal experiments with an *asymmet
 
 ### Table
 
-The Table tab contains two tables (one of the best symmetric design, one for the best asymetric design) with results. Each table has six columns.
+The Table tab contains two tables (one of the best symmetric design, one for the best asymmetric design) with results. Each table has six columns.
 
 1. **Total**: The total number of animals needed in the experiment.
 2. **Induced**: Number of animals needed in the induced, non-treated group (special group).
@@ -31,7 +31,7 @@ The Table tab contains two tables (one of the best symmetric design, one for the
 5. **Power_IC**: The power of the statistical test to compare the induced vs. control means.
 6. **Power_IT**: The power of the statistical test to compare the induced vs. treated means.
 
-The best asymetric design appear near the top of table *Asymmetric design*. The maximum number of rows is equal to 30, and the rows of the table are sorted according to *Total*, but unsorted according to other columns. 
+The best asymmetric design appear near the top of table *Asymmetric design*. The maximum number of rows is equal to 30, and the rows of the table are sorted according to *Total*, but unsorted according to other columns. 
 
 For example, for the default *Lung fibrosis* model with three treated groups, we find that the optimal standard symmetric design requires 50 animals, whereas the optimal asymmetric design requires only 38 animals.
 
@@ -41,7 +41,7 @@ The graph provides a visual impression of the trade-off between the number of an
 
 The lowest (black) line correspond to the control (non-induced) group. The other lines correspond to the different %percent reduction. The green shade indicates the expected level of effect, and can be altered through the *Percent reduction* field.
 
-For example, for the default *Lung fibrosis* model with three treated groups, we find that the optimal points for a test for 50% reduction are at coordinates (8, 12) and (7, 15) on the pink line. Both scenario's yield 38 animals. Moving away from these points along the pink line leads to less efficient designs. To illustrate this point, the design with 9 treated and 11 induced animals needs 40 animals in total, and hence if less optimal.
+For example, for the default *Lung fibrosis* model with three treated groups, we find that the optimal points for a test for 50% reduction are at coordinates (8, 12) and (7, 15) on the pink line. Both scenario's yield 38 animals. Moving away from these points along the pink line leads to less efficient designs. To illustrate this point, the design with 9 treated and 11 induced animals needs 40 animals in total, and hence is less optimal.
 
 ### Summary
 
