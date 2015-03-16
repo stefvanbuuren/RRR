@@ -25,9 +25,9 @@ shinyServer(function(input, output) {
         calculate.powertables(
             musd = musd(),
             alpha = ifelse(input$alpha == "0.05", 0.05, 0.01),
-            power = switch(input$power, "80%" = 0.8, 
-                           "90%" = 0.9,
-                           "50%" = 0.5)
+            power = switch(input$power, "0.80" = 0.8, 
+                           "0.90" = 0.9,
+                           "0.50" = 0.5)
         )})
     
     musd <- reactive({

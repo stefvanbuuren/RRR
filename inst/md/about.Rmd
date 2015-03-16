@@ -5,6 +5,11 @@ About
 
 Idea and realization: [Stef van Buuren](http://www.stefvanbuuren.nl), Reinout Stoop and Anne-Marie Zuurmond
 
+The methodology used in the calculator is explained in the following (unpublished) report:
+
+Stoop R, Zuurmond AM, Kuiper RM, van Loo P, Hanemaaijer R, van Buuren S (2015). *Decreased use of laboratory animals through optimization of experimental design for efficacy studies*. Submitted for publication.
+
+
 --------
 
 ### TERMS OF SERVICE

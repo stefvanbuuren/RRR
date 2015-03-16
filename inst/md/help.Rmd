@@ -1,0 +1,52 @@
+Help
+----
+
+## Goal 
+
+This application calculates sample sizes for animal experiments with an *asymmetric design*, i.e. where the number of animals per group differ. The asymmetric design used here assumes that only the comparisons between each treated group and one special group are of interest. Allocating more animals to the special group is efficient because the larger special group is used for all comparisons. The application calculates the sample sizes needed for asymmetric designs with one special group, up to nine treatment groups, and for up to 30 animals per group. For comparison, the sample sizes for the corresponding symmetric design are also calculated.
+
+## Inputs
+
+1. **Disease model**: Currently only one disease model is implemented: *Lung fibrosis*. This model induces lung fibrosis in mice, and studies the effect of treatment on the outcome parameters. The special group is the induced but non-treated group. Typically, there is also a control group of non-induced mice. The range between the special group and the control group forms the area of potential recovery. The neutral entry *Model* can be used for other disease models. Contact us of you like to make your own disease model available through our calculator.
+2. **Parameters**: The outcome parameters at which treatment is evaluated. Two outcome parameters per disease model are supported. For *Lung fibrosis* the outcome parameters are the *Histological fibrosis* score and the *Collegen content* score.
+3. **Mean induced**: An editable field with the mean score of the outcome in the special group. This number should reflect what is known about the effect of disease induction.
+4. **SD induced**: An editable field with the standard deviation of the outcome in the special (induced, non-treated) group. 
+5. **Mean control**: An editable field with the mean score of the outcome in the control (non-induced) group. This number should reflect normal or healthy outcomes.
+6. **SD control**: An editable field with the standard deviation of the outcome in the control group.
+7. **Percent reduction**: The expected percentage reduction within the area of potential recovery as a result of treatment. A reduction of 50% means implies that we expect that the compound will reduce the outcome to halfway *Mean induced* and *Mean control*, a substantial effect. A reduction of 100% implies we expect to see full recovery, where a reduction of 0% implies that we expect to see no effect of treatment at all.
+8. **Number of treated groups**: The number of groups that is treated. Note: The total number of groups is equal to number of treated groups + 2.
+9. **Alpha**: The type-I error (alpha level) of the statistical test. The conventional value is 0.05.
+10. **Power**: The desired power of the statistical test. The conventional value is 0.80.
+
+## Outputs
+
+### Table
+
+The Table tab contains two tables (one of the best symmetric design, one for the best asymetric design) with results. Each table has six columns.
+
+1. **Total**: The total number of animals needed in the experiment.
+2. **Induced**: Number of animals needed in the induced, non-treated group (special group).
+3. **Control**: Number of animals needed in the non-induced group (control group).
+4. **Treated**: Number of animals needed in each treated group.
+5. **Power_IC**: The power of the statistical test to compare the induced vs. control means.
+6. **Power_IT**: The power of the statistical test to compare the induced vs. treated means.
+
+The best asymetric design appear near the top of table *Asymmetric design*. The maximum number of rows is equal to 30, and the rows of the table are sorted according to *Total*, but unsorted according to other columns. 
+
+For example, for the default *Lung fibrosis* model with three treated groups, we find that the optimal standard symmetric design requires 50 animals, whereas the optimal asymmetric design requires only 38 animals.
+
+### Graph
+
+The graph provides a visual impression of the trade-off between the number of animals needed in the special (induced) group (on the vertical axis), and the other groups (at the horizontal axis), at various levels of effect (%percent reduction). 
+
+The lowest (black) line correspond to the control (non-induced) group. The other lines correspond to the different %percent reduction. The green shade indicates the expected level of effect, and can be altered through the *Percent reduction* field.
+
+For example, for the default *Lung fibrosis* model with three treated groups, we find that the optimal points for a test for 50% reduction are at coordinates (8, 12) and (7, 15) on the pink line. Both scenario's yield 38 animals. Moving away from these points along the pink line leads to less efficient designs. To illustrate this point, the design with 9 treated and 11 induced animals needs 40 animals in total, and hence if less optimal.
+
+### Summary
+
+The Summary tab is a verbal description of the results. The text can be copied and pasted into the research protocol. 
+
+
+--------
+

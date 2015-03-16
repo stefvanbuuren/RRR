@@ -102,10 +102,10 @@ shinyUI(
                    
                    radioButtons(inputId = "power",
                                 label = "Power",
-                                choices = c("50%" = "50%",
-                                            "80%" = "80%",
-                                            "90%" = "90%"),
-                                selected = "80%")
+                                choices = c("0.50" = "0.50",
+                                            "0.80" = "0.80",
+                                            "0.90" = "0.90"),
+                                selected = "0.80")
                ),
                
                wellPanel(
@@ -122,6 +122,8 @@ shinyUI(
                    tabPanel("Graph", plotOutput("mainplot", height = "700px")), 
                    tabPanel("Summary", 
                             uiOutput("summary")),
+                   tabPanel("Help", includeMarkdown(
+                       file.path(path.package("RRR"),"md","help.Rmd"))),
                    tabPanel("About", includeMarkdown(
                        file.path(path.package("RRR"),"md","about.Rmd"))),
                    id = "panel"
