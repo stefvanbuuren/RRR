@@ -9,8 +9,8 @@ Depends:
     markdown
 Imports:
     knitr
-Version: 1.5
-Date: 2015-03-16
+Version: 1.6
+Date: 2015-06-10
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
