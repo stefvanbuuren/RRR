@@ -59,7 +59,7 @@ power.grid <- function(n1 = 2:30,
     
     pwr <- pwr.t2n.test(n1 = nn1, 
                         n2 = nn2, 
-                        d = -d, # 13feb16, now negative because of apparent change of pwr 1.1-3
+                        d = d,
                         sig.level = alpha,
                         power = NULL,
                         alternative = alternative, 
@@ -108,7 +108,7 @@ powerplot <- function(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...) 
     xy <- na.omit(cbind(x = x, y = y))
     x <- xy[,1]
     y <- xy[,2]
-    eqscplot(x = c(0, 30), y = c(0, 30), xlim = c(0, 30), ylim = c(0, 30), 
+    MASS::eqscplot(x = c(0, 30), y = c(0, 30), xlim = c(0, 30), ylim = c(0, 30), 
              col = "transparent", xlab = xlab, ylab = "n (induced)",
              main = main, ...)
     

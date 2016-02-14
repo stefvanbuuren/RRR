@@ -1,7 +1,4 @@
-#'@import MASS
-#'@import markdown
-#'@import xtable
 #'@import shiny
-#'@import pwr
+#'@importFrom MASS eqscplot
 #'@importFrom knitr knit2html
 NULL

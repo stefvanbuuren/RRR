@@ -2,15 +2,12 @@ Package: RRR
 Type: Package
 Title: Replacement, Reduction and Refinement
 Depends:
-    shiny,
-    pwr,
-    MASS,
-    xtable,
-    markdown
+    shiny
 Imports:
-    knitr
-Version: 1.8
-Date: 2016-02-13
+    knitr,
+    MASS
+Version: 1.9
+Date: 2016-02-14
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
