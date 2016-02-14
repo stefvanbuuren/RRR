@@ -1,16 +1,16 @@
 # table.r
 
-#' Calculate table of pair (n1, n2) with a given minimal power 
-#' 
+#' Calculate table of pair (n1, n2) with a given minimal power
+#'
 #' @aliases get.table
-#' 
+#'
 #' @param powertables A list produced by the \code{calculate.powertables()}
 #' @param k number of active treatment groups to be tested
 #' @return A data frame combinations of (n1, n2)
 #' @export
-#' 
+#'
 get.table <- function(powertables, k = 3){
-    powertables <<- powertables
+    # powertables <<- powertables
     n.induced <- as.numeric(names(powertables$control.ctrs$contours[, "100"]))
     n.treated <- as.vector(powertables$treated.ctrs$contours)
     n.control <- as.vector(powertables$control.ctrs$contours[,"100"])
@@ -32,16 +32,16 @@ get.table <- function(powertables, k = 3){
 }
 
 #' Calculate table of pair (n1, n2) with a given minimal power for symmetric design
-#' 
+#'
 #' @aliases get.table.symmetric
-#' 
+#'
 #' @param powertables A list produced by the \code{calculate.powertables()}
 #' @param k number of active treatment groups to be tested
 #' @return A data frame combinations of (n1, n2)
 #' @export
-#' 
+#'
 get.table.symmetric <- function(powertables, k = 3){
-    powertables <<- powertables
+    # powertables <<- powertables
 
     n.induced <- powertables$sym.control$n1
     n.treated <- powertables$sym.treated$n2
@@ -49,7 +49,7 @@ get.table.symmetric <- function(powertables, k = 3){
     powerIC <- powertables$sym.control$power
     powerIT <- powertables$sym.treated$power
     n.total <- n.induced + n.control + k * n.treated
-    
+
     idx <- powertables$sym.has.enough.power
     if (any(idx))
         result <- data.frame(Total = n.total[idx][1],
@@ -58,7 +58,7 @@ get.table.symmetric <- function(powertables, k = 3){
                          Treated = n.treated[idx][1],
                          Power_IC = powerIC[idx][1],
                          Power_IT = powerIT[idx][1])
-    else 
+    else
         result <- data.frame(Total = "-",
                              Induced = ">30",
                              Control = ">30",
@@ -71,7 +71,7 @@ get.table.symmetric <- function(powertables, k = 3){
 }
 
 
-## 
+##
 ## summary table
 ## top row
 ## two group t-test with unequal variances
@@ -83,8 +83,8 @@ get.table.symmetric <- function(powertables, k = 3){
 ## number of control groups = 1
 ## number of treated groups = ntreated
 ## percent reduction = 10 to 100 by 10
-## outcome = 
-# 
+## outcome =
+#
 # n n(induced) n(control) n(treated)  alpha power
 # 10  5          3          3 0.05    0.8
 # 11  6

@@ -3,7 +3,7 @@ Type: Package
 Title: Replacement, Reduction and Refinement
 Depends: shiny
 Imports: knitr, MASS
-Version: 1.9
+Version: 1.10
 Date: 2016-02-14
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>

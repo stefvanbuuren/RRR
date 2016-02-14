@@ -1,10 +1,12 @@
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
+
+  ## Create data storage for this session
+  e <- new.env()
 
   ## Auxiliary functions
   draw.plot <- function() {
-    ntreated <<- as.numeric(input$ntreated)
-    iscontrol <- TRUE
+    ntreated <- as.numeric(input$ntreated)
     if (input$disease == "fibrosis")
       main <- ifelse(input$outcome == "hist",
                      "Histological fibrosis score",
@@ -14,13 +16,12 @@ shinyServer(function(input, output) {
                      "Outcome 1",
                      "Outcome 2")
     powertables <- powertables()
-    powerplot(powertables, main = main, isPBS = iscontrol)
+    powerplot(powertables, main = main, isPBS = TRUE)
   }
 
   powertables <- reactive({
-    musd = musd()
     calculate.powertables(
-      musd,
+      musd = musd(),
       alpha = ifelse(input$alpha == "0.05", 0.05, 0.01),
       power = switch(input$power, "0.80" = 0.8,
                      "0.90" = 0.9,
@@ -35,8 +36,7 @@ shinyServer(function(input, output) {
                as.numeric(input$hist.treated.pct),
                input$cola.induced.mu, input$cola.induced.sd,
                input$cola.control.mu, input$cola.control.sd,
-               as.numeric(input$cola.treated.pct)
-      )
+               as.numeric(input$cola.treated.pct))
     else
       get.musd(input$otheroutcome,
                input$out1.induced.mu, input$out1.induced.sd,
@@ -60,13 +60,14 @@ shinyServer(function(input, output) {
   })
 
   create.summary <- reactive({
-    ntreated <<- as.numeric(input$ntreated)
-    alpha <<- as.numeric(input$alpha)
-    power1 <<- as.numeric(input$power)
-    musdval <<- musd()
-    table.sym <<- create.table.sym()
-    table.asym <<- create.table.asym()
-    includeRmd(file.path(path.package("RRR"), "md", "summary.Rmd"))
+    e$ntreated <- as.numeric(input$ntreated)
+    e$alpha <- as.numeric(input$alpha)
+    e$power1 <- as.numeric(input$power)
+    e$musdval <- musd()
+    e$table.sym <- create.table.sym()
+    e$table.asym <- create.table.asym()
+    includeRmd(file.path(path.package("RRR"), "md", "summary.Rmd"),
+               envir = e)
   })
 
   ## Output elements
