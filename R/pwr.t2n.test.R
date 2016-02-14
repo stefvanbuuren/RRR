@@ -1,4 +1,4 @@
-# This undocumented function is copied from package pwr. There were some confusing upstream changes to pwr.t2n.test() that broken the Shiny application. As a fix, I copied from pwr the version that was previously working. 
+# This undocumented function is copied from package pwr. There were some confusing upstream changes to pwr.t2n.test() that broke the Shiny application. As a fix, I copied from pwr the version that was previously working. 
 "pwr.t2n.test" <-
     function (n1 = NULL, n2= NULL, d = NULL, sig.level = 0.05, power = NULL,
               alternative = c("two.sided", 
