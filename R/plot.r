@@ -35,7 +35,6 @@ power.grid <- function(n1 = 2:30,
                        ...) {
     alternative <- match.arg(alternative)
     
-    mean.diff <- mu2 - mu1
     nn <- expand.grid(n1, n2, percent)
     nn1 <- nn[,1]
     nn2 <- nn[,2]
@@ -55,12 +54,12 @@ power.grid <- function(n1 = 2:30,
     
     # unequal groups sd and d
     sd <- sqrt((sd1^2 * (esn1 - 1) + sd2^2 * (esn2 - 1)) / (esn1 + esn2 - 2))
-    d <- (mu2 - mu1) / sd
+    d <- (mu2 - mu1) / sd 
     d <- d * pct / 100
     
     pwr <- pwr.t2n.test(n1 = nn1, 
                         n2 = nn2, 
-                        d = d, 
+                        d = -d, # 13feb16, now negative because of apparent change of pwr 1.1-3
                         sig.level = alpha,
                         power = NULL,
                         alternative = alternative, 

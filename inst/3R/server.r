@@ -22,33 +22,49 @@ shinyServer(function(input, output) {
     }
     
     powertables <- reactive({
+        if (input$disease == 'fibrosis') musd <- 
+                get.musd(input$outcome,
+                         input$hist.induced.mu, input$hist.induced.sd,
+                         input$hist.control.mu, input$hist.control.sd,
+                         as.numeric(input$hist.treated.pct),
+                         input$cola.induced.mu, input$cola.induced.sd,
+                         input$cola.control.mu, input$cola.control.sd,
+                         as.numeric(input$cola.treated.pct))
+        else musd <- 
+                get.musd(input$otheroutcome,
+                         input$out1.induced.mu, input$out1.induced.sd,
+                         input$out1.control.mu, input$out1.control.sd,
+                         as.numeric(input$out1.treated.pct),
+                         input$out2.induced.mu, input$out2.induced.sd,
+                         input$out2.control.mu, input$out2.control.sd,
+                         as.numeric(input$out2.treated.pct))
         calculate.powertables(
-            musd = musd(),
+            musd,
             alpha = ifelse(input$alpha == "0.05", 0.05, 0.01),
             power = switch(input$power, "0.80" = 0.8, 
                            "0.90" = 0.9,
                            "0.50" = 0.5)
         )})
     
-    musd <- reactive({
-        if (input$disease == 'fibrosis') 
-            get.musd(input$outcome,
-                     input$hist.induced.mu, input$hist.induced.sd,
-                     input$hist.control.mu, input$hist.control.sd,
-                     as.numeric(input$hist.treated.pct),
-                     input$cola.induced.mu, input$cola.induced.sd,
-                     input$cola.control.mu, input$cola.control.sd,
-                     as.numeric(input$cola.treated.pct)
-            )
-        else 
-            get.musd(input$otheroutcome,
-                     input$out1.induced.mu, input$out1.induced.sd,
-                     input$out1.control.mu, input$out1.control.sd,
-                     as.numeric(input$out1.treated.pct),
-                     input$out2.induced.mu, input$out2.induced.sd,
-                     input$out2.control.mu, input$out2.control.sd,
-                     as.numeric(input$out2.treated.pct))
-    }) 
+    # musd <- reactive({
+    #     if (input$disease == 'fibrosis') 
+    #         get.musd(input$outcome,
+    #                  input$hist.induced.mu, input$hist.induced.sd,
+    #                  input$hist.control.mu, input$hist.control.sd,
+    #                  as.numeric(input$hist.treated.pct),
+    #                  input$cola.induced.mu, input$cola.induced.sd,
+    #                  input$cola.control.mu, input$cola.control.sd,
+    #                  as.numeric(input$cola.treated.pct)
+    #         )
+    #     else 
+    #         get.musd(input$otheroutcome,
+    #                  input$out1.induced.mu, input$out1.induced.sd,
+    #                  input$out1.control.mu, input$out1.control.sd,
+    #                  as.numeric(input$out1.treated.pct),
+    #                  input$out2.induced.mu, input$out2.induced.sd,
+    #                  input$out2.control.mu, input$out2.control.sd,
+    #                  as.numeric(input$out2.treated.pct))
+    # }) 
     
     create.pdf <- reactive({
         temp <- tempfile(fileext = ".pdf")
@@ -78,7 +94,25 @@ shinyServer(function(input, output) {
         power1 <<- switch(input$power, "80%" = 0.8, 
                           "90%" = 0.9,
                           "50%" = 0.5)
-        musdval <<- musd()
+        musdval <<- 
+            if (input$disease == 'fibrosis')
+                get.musd(input$outcome,
+                         input$hist.induced.mu, input$hist.induced.sd,
+                         input$hist.control.mu, input$hist.control.sd,
+                         as.numeric(input$hist.treated.pct),
+                         input$cola.induced.mu, input$cola.induced.sd,
+                         input$cola.control.mu, input$cola.control.sd,
+                         as.numeric(input$cola.treated.pct)
+                )
+        else
+            get.musd(input$otheroutcome,
+                     input$out1.induced.mu, input$out1.induced.sd,
+                     input$out1.control.mu, input$out1.control.sd,
+                     as.numeric(input$out1.treated.pct),
+                     input$out2.induced.mu, input$out2.induced.sd,
+                     input$out2.control.mu, input$out2.control.sd,
+                     as.numeric(input$out2.treated.pct))
+        
         table.sym <<- create.table.sym()
         table.asym <<- create.table.asym()
         includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"))
@@ -90,7 +124,25 @@ shinyServer(function(input, output) {
         power1 <<- switch(input$power, "80%" = 0.8, 
                           "90%" = 0.9,
                           "50%" = 0.5)
-        musdval <<- musd()
+        musdval <<- 
+            if (input$disease == 'fibrosis')
+                get.musd(input$outcome,
+                         input$hist.induced.mu, input$hist.induced.sd,
+                         input$hist.control.mu, input$hist.control.sd,
+                         as.numeric(input$hist.treated.pct),
+                         input$cola.induced.mu, input$cola.induced.sd,
+                         input$cola.control.mu, input$cola.control.sd,
+                         as.numeric(input$cola.treated.pct)
+                )
+        else
+            get.musd(input$otheroutcome,
+                     input$out1.induced.mu, input$out1.induced.sd,
+                     input$out1.control.mu, input$out1.control.sd,
+                     as.numeric(input$out1.treated.pct),
+                     input$out2.induced.mu, input$out2.induced.sd,
+                     input$out2.control.mu, input$out2.control.sd,
+                     as.numeric(input$out2.treated.pct))
+        
         table.sym <<- create.table.sym()
         table.asym <<- create.table.asym()
         includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"), 
