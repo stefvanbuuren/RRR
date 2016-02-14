@@ -1,4 +1,3 @@
-library("RRR")
 
 shinyUI(
   fluidPage(
@@ -113,6 +112,10 @@ shinyUI(
              conditionalPanel(
                condition = "input.panel == 'Graph'",
                downloadButton('downloadGraph', 'Download')
+             ),
+             conditionalPanel(
+               condition = "input.panel == 'Summary'",
+               downloadButton('downloadSummary', 'Download')
              )
       ),
       column(width = 8, offset = 1,
@@ -120,13 +123,14 @@ shinyUI(
                tabPanel("Table",
                         tableOutput("tablesym"),
                         tableOutput("tableasym")),
-               tabPanel("Graph", plotOutput("mainplot", height = "700px")),
+               tabPanel("Graph",
+                        plotOutput("mainplot", height = "700px")),
                tabPanel("Summary",
                         uiOutput("summary")),
-               tabPanel("How to use", includeMarkdown(
-                 file.path(path.package("RRR"),"md","help.Rmd"))),
-               tabPanel("About", includeMarkdown(
-                 file.path(path.package("RRR"),"md","about.Rmd"))),
+               tabPanel("How to use",
+                        includeRmd(file.path(path.package("RRR"), "md", "help.Rmd"))),
+               tabPanel("About",
+                        includeRmd(file.path(path.package("RRR"), "md", "about.Rmd"))),
                id = "panel"
              )
       )

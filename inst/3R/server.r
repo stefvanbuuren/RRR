@@ -1,13 +1,9 @@
 
-# setwd("/Users/stefvanbuuren/Documents/Sync/W/My Documents/Diversen/dierproeven/Stoop/RRR/R")
-library("RRR")
-treated <- 0
-
 shinyServer(function(input, output) {
 
+  ## Auxiliary functions
   draw.plot <- function() {
     ntreated <<- as.numeric(input$ntreated)
-    # iscontrol <- input$comparison == "control"
     iscontrol <- TRUE
     if (input$disease == "fibrosis")
       main <- ifelse(input$outcome == "hist",
@@ -65,37 +61,15 @@ shinyServer(function(input, output) {
 
   create.summary <- reactive({
     ntreated <<- as.numeric(input$ntreated)
-    alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
-    power1 <<- switch(input$power, "80%" = 0.8,
-                      "90%" = 0.9,
-                      "50%" = 0.5)
+    alpha <<- as.numeric(input$alpha)
+    power1 <<- as.numeric(input$power)
     musdval <<- musd()
     table.sym <<- create.table.sym()
     table.asym <<- create.table.asym()
-    includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"))
+    includeRmd(file.path(path.package("RRR"), "md", "summary.Rmd"))
   })
 
-  create.summary.print <- reactive({
-    ntreated <<- as.numeric(input$ntreated)
-    alpha <<- ifelse(input$alpha == "0.05", 0.05, 0.01)
-    power1 <<- switch(input$power, "80%" = 0.8,
-                      "90%" = 0.9,
-                      "50%" = 0.5)
-    musdval <<- musd()
-    table.sym <<- create.table.sym()
-    table.asym <<- create.table.asym()
-    includeRmd(file.path(path.package("RRR"),"md","summary.Rmd"),
-               fragment.only = FALSE)
-  })
-
-  output$mainplot <- renderPlot(
-    draw.plot(),
-    width = 700,
-    height = 700,
-    res = 108
-  )
-
-  # Generate an HTML table view of the data
+  ## Output elements
   output$tablesym <- renderTable(
     create.table.sym(),
     include.rownames = FALSE,
@@ -110,8 +84,16 @@ shinyServer(function(input, output) {
     caption.placement = "top"
   )
 
+  output$mainplot <- renderPlot(
+    draw.plot(),
+    width = 700,
+    height = 700,
+    res = 108
+  )
+
   output$summary <- renderUI(create.summary())
 
+  # Context-sensitive download buttons
   output$downloadGraph <- downloadHandler(
     filename = function() {
       paste('Graph-', Sys.Date(), '.pdf', sep = '')
@@ -139,15 +121,15 @@ shinyServer(function(input, output) {
   )
 
   output$downloadSummary <- downloadHandler(
-    filename = "mysummary.html",
+    filename = function() {
+      paste('Summary-', Sys.Date(), '.html', sep = '')
+    },
     content = function(file) {
-      out <- create.summary.print()
-      file.rename("summary.html", file)
+      html <- create.summary()
+      writeLines(html, con = file)
     },
     contentType = "application/html"
   )
-
-
 }
 )
 
