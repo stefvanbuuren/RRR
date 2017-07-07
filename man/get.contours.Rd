@@ -17,4 +17,3 @@ A data frame combinations of (n1, n2)
 \description{
 Calculate contours of pair (n1, n2) with a given minimal power
 }
-

@@ -24,4 +24,3 @@ A list with four components
 Calculates the powertables for the given mu and sd matrix musd
 and other settings
 }
-

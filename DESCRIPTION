@@ -3,8 +3,8 @@ Type: Package
 Title: Replacement, Reduction and Refinement
 Depends: shiny
 Imports: knitr, MASS
-Version: 1.10
-Date: 2016-02-14
+Version: 1.11
+Date: 2017-07-07
 Author: Stef van Buuren
 Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
 Description: Tools for reducing the number animals needed for biomemedical
@@ -13,4 +13,4 @@ Description: Tools for reducing the number animals needed for biomemedical
 License: GPL-2
 LazyData: Yes
 Copyright: Stef van Buuren 2016
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

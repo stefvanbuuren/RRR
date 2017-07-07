@@ -20,4 +20,3 @@ powerplot(powertables, power = 0.8, main = NULL, isPBS = TRUE, ...)
 \description{
 Create the chart with power lines
 }
-

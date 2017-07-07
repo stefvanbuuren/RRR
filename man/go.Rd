@@ -13,4 +13,3 @@ go(...)
 \description{
 Run the Shiny app from the console
 }
-

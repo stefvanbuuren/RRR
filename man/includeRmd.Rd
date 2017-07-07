@@ -21,4 +21,3 @@ html vector
 \description{
 Compiles Rmd and output html
 }
-

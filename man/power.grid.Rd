@@ -42,4 +42,3 @@ A data frame with rows corresponding to different designs
 \description{
 Calculate the power of t-test with unequal variances
 }
-
