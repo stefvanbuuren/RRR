@@ -4,9 +4,19 @@
 \alias{get.musd}
 \title{Returns the musd matrix from the inputs}
 \usage{
-get.musd(outcome, hist.induced.mu, hist.induced.sd, hist.control.mu,
-  hist.control.sd, hist.treated.pct, cola.induced.mu, cola.induced.sd,
-  cola.control.mu, cola.control.sd, cola.treated.pct)
+get.musd(
+  outcome,
+  hist.induced.mu,
+  hist.induced.sd,
+  hist.control.mu,
+  hist.control.sd,
+  hist.treated.pct,
+  cola.induced.mu,
+  cola.induced.sd,
+  cola.control.mu,
+  cola.control.sd,
+  cola.treated.pct
+)
 }
 \arguments{
 \item{outcome}{A string, either \code{hist} or \code{cola}}

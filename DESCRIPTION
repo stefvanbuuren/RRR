@@ -13,4 +13,5 @@ Description: Tools for reducing the number animals needed for biomemedical
 License: GPL-2
 LazyData: Yes
 Copyright: Stef van Buuren 2016
-RoxygenNote: 6.0.1
+Encoding: UTF-8
+RoxygenNote: 7.1.1

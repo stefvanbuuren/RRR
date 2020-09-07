@@ -4,9 +4,20 @@
 \alias{power.grid}
 \title{Calculate the power of t-test with unequal variances}
 \usage{
-power.grid(n1 = 2:30, n2 = 2:30, mu1 = 0, mu2 = 1, sd1 = 1, sd2 = 1,
-  alternative = c("two.sided", "less", "greater"), percent = 100,
-  alpha = 0.05, power = 0.8, interpolate.sd2 = FALSE, ...)
+power.grid(
+  n1 = 2:30,
+  n2 = 2:30,
+  mu1 = 0,
+  mu2 = 1,
+  sd1 = 1,
+  sd2 = 1,
+  alternative = c("two.sided", "less", "greater"),
+  percent = 100,
+  alpha = 0.05,
+  power = 0.8,
+  interpolate.sd2 = FALSE,
+  ...
+)
 }
 \arguments{
 \item{n1}{Vector of samples sizes for untreated, diseased group}
