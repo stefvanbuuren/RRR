@@ -1,4 +1,3 @@
-
 shinyServer(function(input, output, session) {
 
   ## Create data storage for this session
